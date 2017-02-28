@@ -75,9 +75,8 @@ describe('ShowComponent', function () {
     }])
   });
 
-  fit('it should be able to delete data from service',() =>{
+  it('it should be able to delete data from service',() =>{
     spyOn(window, "alert");
-    spyOn(router, "navigate").and.returnValue(Promise.resolve(true));
     spyOn(service,'remove').and.returnValue(
       Observable.of<any>(
         [{
@@ -91,7 +90,28 @@ describe('ShowComponent', function () {
     );
     comp.deleteByIndex(0);
     expect(window.alert).toHaveBeenCalledWith('Task Removed');
-    expect(router.navigate).toBe(Promise.resolve(true));
+    router.navigate([]).then(data => {
+      expect(data).toBe(true);
+    })
+
+  });
+
+  it('it should be able to edit data from service',() =>{
+    spyOn(service,'remove').and.returnValue(
+      Observable.of<any>(
+        [{
+          date: '',
+          title: '',
+          description: '',
+          priority: '',
+          _id: ''
+        }]
+      )
+    );
+    comp.editTask(0);
+    router.navigate([]).then(data => {
+      expect(data).toBe(true);
+    })
 
   });
 
